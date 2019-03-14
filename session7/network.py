@@ -141,14 +141,14 @@ class VersionMessage:
         result += int_to_little_endian(self.receiver_services, 8)
         # IPV4 is 10 00 bytes and 2 ff bytes then receiver ip
         result += b'\x00' * 10 + b'\xff\xff' + self.receiver_ip
-        # receiver port is 2 bytes, little endian
-        result += int_to_little_endian(self.receiver_port, 2)
+        # receiver port is 2 bytes, big endian
+        result += self.receiver_port.to_bytes(2, 'big')
         # sender services is 8 bytes little endian
         result += int_to_little_endian(self.sender_services, 8)
         # IPV4 is 10 00 bytes and 2 ff bytes then sender ip
         result += b'\x00' * 10 + b'\xff\xff' + self.sender_ip
-        # sender port is 2 bytes, little endian
-        result += int_to_little_endian(self.sender_port, 2)
+        # sender port is 2 bytes, big endian
+        result += self.sender_port.to_bytes(2, 'big')
         # nonce
         result += self.nonce
         # useragent is a variable string, so varint first
